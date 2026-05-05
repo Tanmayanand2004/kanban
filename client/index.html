@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Shown when logged out -->
+  <div id="auth-screen" class="auth-screen hidden">
+    <div class="auth-card">
+      <h1 class="auth-logo">Kanban</h1>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Sign in</button>
+        <button class="auth-tab" data-tab="register">Register</button>
+      </div>
+      <form id="login-form" class="auth-form">
+        <div class="field"><label>Email</label><input type="email" id="login-email" placeholder="you@example.com" /></div>
+        <div class="field"><label>Password</label><input type="password" id="login-password" placeholder="••••••••" /></div>
+        <button type="submit" class="btn btn-primary w-full">Sign in</button>
+        <div class="auth-error hidden" id="login-error"></div>
+      </form>
+      <form id="register-form" class="auth-form hidden">
+        <div class="field"><label>Name</label><input type="text" id="reg-name" placeholder="Your name" /></div>
+        <div class="field"><label>Email</label><input type="email" id="reg-email" placeholder="you@example.com" /></div>
+        <div class="field"><label>Password</label><input type="password" id="reg-password" placeholder="Min. 6 characters" /></div>
+        <button type="submit" class="btn btn-primary w-full">Create account</button>
+        <div class="auth-error hidden" id="reg-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main app -->
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="sidebar-header"><span class="logo">Kanban</span></div>
+      <div class="sidebar-label">Your boards</div>
+      <nav id="boards-nav"></nav>
+      <button class="btn btn-ghost sidebar-new" id="new-board-btn">+ New board</button>
+      <div class="sidebar-footer">
+        <div id="user-chip" class="user-chip"></div>
+        <button class="btn btn-ghost" id="logout-btn" title="Sign out">⇥</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="board-header hidden" id="board-header">
+        <div class="header-left">
+          <h1 id="board-name"></h1>
+        </div>
+        <div class="header-right">
+          <select id="filter-priority" class="filter-select">
+            <option value="">All priorities</option>
+            <option value="urgent">Urgent</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
+          <input type="text" id="filter-search" class="filter-input" placeholder="Search tasks…" />
+          <button class="btn btn-primary" id="add-task-btn">+ Add task</button>
+        </div>
+      </header>
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">📋</div>
+        <p>Select a board or create a new one</p>
+      </div>
+      <div class="board" id="board"></div>
+    </main>
+  </div>
+
+  <!-- Task modal -->
+  <div class="modal-overlay hidden" id="task-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="task-modal-title">Add task</h2>
+        <button class="modal-close" id="task-modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field"><label>Title</label><input type="text" id="t-title" placeholder="What needs to be done?" /></div>
+        <div class="field"><label>Description</label><textarea id="t-desc" rows="3"></textarea></div>
+        <div class="field-row">
+          <div class="field"><label>Column</label><select id="t-column"></select></div>
+          <div class="field"><label>Priority</label>
+            <select id="t-priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Assignee</label><select id="t-assignee"><option value="">Unassigned</option></select></div>
+          <div class="field"><label>Due date</label><input type="date" id="t-due" /></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="task-modal-cancel">Cancel</button>
+        <button class="btn btn-primary" id="task-modal-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New board modal -->
+  <div class="modal-overlay hidden" id="board-modal">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h2>New board</h2>
+        <button class="modal-close" id="board-modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="field"><label>Name</label><input type="text" id="b-name" placeholder="e.g. Product Roadmap" /></div>
+        <div class="field"><label>Description</label><input type="text" id="b-desc" placeholder="Optional" /></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="board-modal-cancel">Cancel</button>
+        <button class="btn btn-primary" id="board-modal-save">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
