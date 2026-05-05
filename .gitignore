@@ -1,3 +1,5 @@
 node_modules/
 server/kanban.db
+server/kanban.db-shm
+server/kanban.db-wal
 .env
